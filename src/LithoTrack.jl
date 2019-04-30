@@ -5,6 +5,7 @@ function LithoTrack(Depth,GammaRay;SponPot=false,DepthFrom=minimum(Depth),DepthT
                     WellFm=false,FmC1=RGB(0.0,0.0,1.0),FmC2=RGB(1.0,0.0,0.0),
                     WellPerf=false,
                     GRSand=false, GRShale=false,
+                    SSP=false, PSP=false,
                     LineCorrelate=false,
                     Pay=false,
                     WellName=false)
@@ -85,6 +86,14 @@ end
         grax.vlines(GRShale[1],GRShale[2],GRShale[3],color=:gray,linestyle="--",linewidth=1.5)
 end
 
+if SSP!=false
+       spax.vlines(SSP[1],SSP[2],SSP[3],color=:gold,linestyle="--",linewidth=1.5)
+end
+
+ if PSP!=false
+        spax.vlines(PSP[1],PSP[2],PSP[3],color=:gray,linestyle="--",linewidth=1.5)
+end
+
  if LineCorrelate!=false                            #If want to use a line to correlate
       grax.hlines(LineCorrelate,0,150, linewidth=1,linestyle="--",color="red")
     end
@@ -99,5 +108,9 @@ grax.set_title(WellName)
  yPay=zeros(size(Payd,1)).+148
  grax.scatter(yPay,Payd,color="red",linewidth=4)
  end
+
+
+
+
 
 end
