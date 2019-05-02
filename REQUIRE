@@ -1,3 +1,4 @@
 julia 1.1
 PyPlot v2.8.1
 Colors v0.9.5
+Distributions v0.17.0

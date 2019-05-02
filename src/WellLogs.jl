@@ -2,9 +2,10 @@ module WellLogs
 
 using PyPlot
 using Colors
+using Distributions
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
-        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics
+        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist
 
 #Track functions
 include("KhTrack.jl")
@@ -25,5 +26,6 @@ include("Vshale.jl")
 #Formula for include PetroPhysics estimates in well logs
 include("AddColPetro.jl")
 include("PetroPhysics.jl")
+include("PropDist.jl")
 
 end # module
