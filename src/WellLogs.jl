@@ -3,9 +3,11 @@ module WellLogs
 using PyPlot
 using Colors
 using Distributions
+using Plots
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
-        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist
+        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
+        PickettPlot
 
 #Track functions
 include("KhTrack.jl")
@@ -27,5 +29,5 @@ include("Vshale.jl")
 include("AddColPetro.jl")
 include("PetroPhysics.jl")
 include("PropDist.jl")
-
+include("PicketPlot.jl")
 end # module

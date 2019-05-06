@@ -20,6 +20,10 @@ phieax.set_xlabel("Phie")
 phieax.tick_params("both",labelsize=6)
 
 phieax.fill_betweenx(Depth,PhiePlot,0,where=(Vsh .<= 1),color="red")
+else
+    vshax.xaxis.set_label_position("top")
+    vshax.xaxis.tick_top()
+
 end
 
 end
