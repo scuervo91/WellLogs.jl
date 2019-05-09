@@ -7,7 +7,7 @@ using Plots
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot
+        PickettPlot, OGIP
 
 #Track functions
 include("KhTrack.jl")
@@ -29,5 +29,9 @@ include("Vshale.jl")
 include("AddColPetro.jl")
 include("PetroPhysics.jl")
 include("PropDist.jl")
-include("PicketPlot.jl")
+include("PickettPlot.jl")
+
+
+#Formula for volumetrics estimates
+include("OGIP.jl")
 end # module

@@ -1,14 +1,15 @@
 function LithoTrack(Depth,GammaRay;SponPot=false,DepthFrom=minimum(Depth),DepthTo=maximum(Depth),
                     spax_color="black",grax_color="darkgreen",
                     Dtick=true,
-                    WellUnit=false,UnitC1=RGB(0.9,0.9,0.2),UnitC2=RGB(1,0.0,0.1),
-                    WellFm=false,FmC1=RGB(0.0,0.0,1.0),FmC2=RGB(1.0,0.0,0.0),
+                    WellUnit=false, UnitC1=RGB(0.9,0.9,0.2), UnitC2=RGB(1.0,0.0,0.1), UnitAlpha=0.1,
+                    WellFm=false, FmC1=RGB(0.0,0.0,1.0), FmC2=RGB(1.0,0.0,0.0), FmAlpha=0.1,
                     WellPerf=false,
                     GRSand=false, GRShale=false,
                     SSP=false, PSP=false,
                     LineCorrelate=false,
                     Pay=false,
-                    WellName=false)
+                    WellName=false,
+                    GRMax=150)
 
   #If the Spontaneous Potential is provided
 if SponPot != false
@@ -33,8 +34,8 @@ end
 
 grax.plot(GammaRay,Depth,color=grax_color)
     xlabel("GammaRay")
-    xticks(0:50:150)
-    grax.set_xlim([0,150])
+    xticks(0:50:GRMax)
+    grax.set_xlim([0,GRMax])
     grax.tick_params("both",labelsize=6)
     grax.grid(true)
     setp(grax.get_yticklabels(),visible=Dtick)
@@ -51,8 +52,8 @@ if WellFm != false                                     #If Formations are Provid
     zcols = map(col -> (red(col), green(col), blue(col)), zcolor)
 
     for i=1:ntop
-        grax.axhspan(WellFm[i,1],WellFm[i,2],xmin=0,xmax=150,alpha=0.3,color=zcols[i])
-        grax.hlines([WellFm[i,1],WellFm[i,2]],0,150, linewidth=0.5)
+        grax.axhspan(WellFm[i,1],WellFm[i,2],xmin=0,xmax=GRMax,alpha=FmAlpha,color=zcols[i])
+        grax.hlines([WellFm[i,1],WellFm[i,2]],0,GRMax, linewidth=0.5)
     end
 end
 
@@ -66,8 +67,8 @@ if WellUnit != false                                     #If Units are Provided
     zcols = map(col -> (red(col), green(col), blue(col)), zcolor)
 
     for i=1:ntop
-        grax.axhspan(WellUnit[i,1],WellUnit[i,2],xmin=0,xmax=150,alpha=0.5,color=zcols[i])
-        grax.hlines([WellUnit[i,1],WellUnit[i,2]],0,150, linewidth=0.5)
+        grax.axhspan(WellUnit[i,1],WellUnit[i,2],xmin=0,xmax=GRMax,alpha=UnitAlpha,color=zcols[i])
+        grax.hlines([WellUnit[i,1],WellUnit[i,2]],0,GRMax, linewidth=0.5)
     end
 end
 
@@ -95,7 +96,7 @@ end
 end
 
  if LineCorrelate!=false                            #If want to use a line to correlate
-      grax.hlines(LineCorrelate,0,150, linewidth=1,linestyle="--",color="red")
+      grax.hlines(LineCorrelate,0,GRMax, linewidth=1,linestyle="--",color="red")
     end
 
  if WellName!=false
