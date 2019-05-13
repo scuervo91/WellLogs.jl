@@ -4,10 +4,12 @@ using PyPlot
 using Colors
 using Distributions
 using Plots
+using Statistics
+
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot, OGIP
+        PickettPlot, OGIP, OOIP, TopDistance
 
 #Track functions
 include("KhTrack.jl")
@@ -34,4 +36,8 @@ include("PickettPlot.jl")
 
 #Formula for volumetrics estimates
 include("OGIP.jl")
+include("OOIP.jl")
+
+include("TopDistance.jl")
+
 end # module
