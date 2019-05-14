@@ -1,4 +1,4 @@
-function TopDistance(x,y;z=false,Names=false,Show=false,PlotTitle="", Xlabel="", Ylabel="")
+function TopDistance(x,y;z=false,Names=false,Show=false,PlotTitle="", Xlabel="East_m", Ylabel="North_m")
 
 
     if size(x,1)!=size(y,1)                       #eval if input is equal

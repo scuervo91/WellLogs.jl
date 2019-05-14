@@ -5,11 +5,12 @@ using Colors
 using Distributions
 using Plots
 using Statistics
+using DataFrames
 
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot, OGIP, OOIP, TopDistance
+        PickettPlot, OGIP, OOIP, TopDistance, InverseWeightMap
 
 #Track functions
 include("KhTrack.jl")
@@ -39,5 +40,6 @@ include("OGIP.jl")
 include("OOIP.jl")
 
 include("TopDistance.jl")
+include("InverseWeightMap.jl")
 
 end # module
