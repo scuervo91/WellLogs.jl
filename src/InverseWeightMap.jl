@@ -37,7 +37,7 @@ function InverseWeightMap(x,y,z;
 
     #Estimate the matrix of weights
 
-    W=map(dis->(1 ./(dis.^2)),d)
+    W=map(dis->(1 ./(dis.^p)),d)
 
     #Calculate value in prediction point in a vector
 
@@ -47,14 +47,16 @@ function InverseWeightMap(x,y,z;
     end
 
     Z=reshape(Zvec,m,n)
+      colors = [(1.0, 0.0, 0.0), (1.0, 1.0, 0.1),
+              (0.2, 1.0, 0.3),(0.5, 1.0, 0.0),(1, 1, 1)]  # R -> G -> B
 
-clr = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red","violet","blue"])
+   cm = matplotlib.colors.LinearSegmentedColormap.from_list("", colors,N=100)
 
     if PlotMap=="Surface"
 
          fig = subplots(1,1)
          ax=gca(projection="3d")
-         ax.plot_surface(X,Y,Z,cmap=clr)
+         ax.plot_surface(X,Y,Z,cmap=cm)
          ax.set_zlim(maximum(z),minimum(z))
          ax.scatter(x,y,z)
 
@@ -62,10 +64,18 @@ clr = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red","violet","b
 
          fig = subplots(1,1)
          ax=gca()
-         ax.contourf(X,Y,Z,cmap=clr)
+         CS = ax.contour(X,Y,Z,cmap=cm)
+         ax.clabel(CS, fontsize=10)
+         cb = colorbar(CS, orientation="horizontal", shrink=0.8)
 
+    elseif PlotMap=="Contourf"
+
+         fig = subplots(1,1)
+         ax=gca()
+         CS = ax.contourf(X,Y,Z,cmap=cm)
+         cb = colorbar(CS, orientation="horizontal", shrink=0.8)
     end
 
-    #return Z
+    return Z, fig
 
 end
