@@ -6,7 +6,7 @@ using Distributions
 using Plots
 using Statistics
 using DataFrames
-
+using RecipesBase
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
@@ -41,5 +41,9 @@ include("OOIP.jl")
 
 include("TopDistance.jl")
 include("InverseWeightMap.jl")
+
+#Plot Recipes
+include("IwmRecipe.jl")
+
 
 end # module
