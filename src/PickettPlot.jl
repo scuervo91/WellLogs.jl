@@ -40,7 +40,7 @@ title --> (WellName==false ? :none : WellName)
 yticks --> [0.01,0.1,1]
 legend --> :bottomleft
 
-c=range(RGB(0.0,1.0,0.0),stop=RGB(0.0,0.0,1.0),length=5)
+c=range(RGB(0.0,1.0,0.0),stop=RGB(0.0,0.0,1.0),length=lenght(Sw))
 
 cg=ColorGradient(c)
 legendtitle := "Water Saturations[]"
