@@ -114,16 +114,18 @@ names(Logs)
  ```julia
  Logs=PetroPhysics(Logs,9010,10172,Vsh=[19,73],DenPhi=[2.65,1],Phie=true,Sw=[0.62,2.15,2,0.8],Perm=["Gas","Timur"]);
  ```
- DepthFrom,DepthTo;    #range of depth to calculate Petrophysics<br>
- Vsh                   #If caculate Vshale   [GrSand, GrShale]<br>
- DenPhi                #If caculate Porosity from Density Log  [RhoMatrix, RhoFluid]<br>
- Phie                  #If caculate Efective Porosity. It is requiered Vsh, DenPhi, and Neutron<br>
- Sw                    #If caculate Water Saturation. It is requiered Phie and DeepRes and Archie Parameters[a,m,n,Rw]<br>
- Perm                  #If caculate Permeability).    Phie, Sw, Fluid, Author [Fluid, Author]<br>
- PayFlag                #If calculate PayFlag. It is requiered Vsh,Phie,Sw,Perm [VshCutoff,PhieCutOff,SwCutoff,KCutOff]<br>
- Kh                     #If requiered Flow Capacity percentage<br>
+|Parameter|Description
+|---|---|
+|DepthFrom,DepthTo;    |#range of depth to calculate Petrophysics
+| Vsh                  | #If caculate Vshale   [GrSand, GrShale]
+| DenPhi                |#If caculate Porosity from Density Log  [RhoMatrix, RhoFluid]
+| Phie                  |#If caculate Efective Porosity. It is requiered Vsh, DenPhi, and Neutron
+| Sw                    |#If caculate Water Saturation. It is requiered Phie and DeepRes and Archie Parameters[a,m,n,Rw]
+| Perm                  |#If caculate Permeability).    Phie, Sw, Fluid, Author [Fluid, Author]
+| PayFlag                |#If calculate PayFlag. It is requiered Vsh,Phie,Sw,Perm [VshCutoff,PhieCutOff,SwCutoff,KCutOff]
+| Kh                     |#If requiered Flow Capacity percentage|
 
-Then you can plot the results within an interactive plot
+Then you can plot the results within an interactive plot:
 
 ```julia
 @manipulate for from=9300, to=9344, grsand=20, grshale=100
@@ -151,4 +153,20 @@ SwTrack(Logs.Md,Logs.Sw,DepthFrom=from,DepthTo=to)
     end
 end
 ```
-<img src="WellLog_Ex1.PNG"><br>
+<img src="WellLog_Ex2.PNG"><br>
+
+### Other features
+
+A picket plot can be added by calling PickettPlot function
+
+```julia
+function PickettPlot(Rt,Phie,Rw;      #Must provide Rt, Phie and Rw
+                    a=1,m=2,n=2,      #Default values for Archie equation
+                    Sw=range(0.2,stop=1,length=5),  #Default Sw range to plot
+                    WellName="-")
+
+.....................
+PickettPlot(LC1.DeepRes,LC1.Phie,0.8)
+```
+
+<img src="WellLog_Ex3.PNG"><br>
