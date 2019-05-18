@@ -45,7 +45,8 @@ Perfs=CSV.read("~\\Perforations.csv")
 Units=CSV.read("~\\UnitsTops.csv")
 ```
 
-Logs Example
+Logs Example<br>
+
 | WellId | Md | GammaRay  | Sp
 | --- | --- | --- | --- |
 | 1 | 0 | 123 | 345 |
@@ -71,5 +72,83 @@ Logs Example
     end
 end
 ```
+<img src="WellLog_Ex1.PNG"><br>
 
-<img src="WellLog_Ex1.PNG" height="200"><br>
+### Petrophysics
+
+To estimate basic Petrophysics calculations on the current DataFrame log, AddColPetro function add either all or specific columns of zeros to log DataFrame.
+
+```julia
+Logs=AddColPetro(Logs,All=true)
+names(Logs)
+25-element Array{Symbol,1}:
+ :WellId     
+ :Md         
+ :Tvd        
+ :Tvdss      
+ :GammaRay   
+ :SP         
+ :NeutronSand
+ :Density    
+ :MicroRes   
+ :ShallowRes
+ :MediumRes  
+ :DeepRes    
+ :Sonic      
+ :Caliper    
+ :Pe         
+ :Bit        
+ :Dcor       
+ :NeutronLime
+ :Vsh        #(Added)
+ :Phie       #(Added)
+ :Sw         #(Added)
+ :Perm       #(Added)
+ :PayFlag    #(Added)
+ :Kh         #(Added)
+ :DenPhi     #(Added)
+ ```
+
+ Once the columns required are created, it is estimated the petrophysics calculation by PetroPhysics function
+
+ ```julia
+ Logs=PetroPhysics(Logs,9010,10172,Vsh=[19,73],DenPhi=[2.65,1],Phie=true,Sw=[0.62,2.15,2,0.8],Perm=["Gas","Timur"]);
+ ```
+ DepthFrom,DepthTo;    #range of depth to calculate Petrophysics<br>
+ Vsh                   #If caculate Vshale   [GrSand, GrShale]<br>
+ DenPhi                #If caculate Porosity from Density Log  [RhoMatrix, RhoFluid]<br>
+ Phie                  #If caculate Efective Porosity. It is requiered Vsh, DenPhi, and Neutron<br>
+ Sw                    #If caculate Water Saturation. It is requiered Phie and DeepRes and Archie Parameters[a,m,n,Rw]<br>
+ Perm                  #If caculate Permeability).    Phie, Sw, Fluid, Author [Fluid, Author]<br>
+ PayFlag                #If calculate PayFlag. It is requiered Vsh,Phie,Sw,Perm [VshCutoff,PhieCutOff,SwCutoff,KCutOff]<br>
+ Kh                     #If requiered Flow Capacity percentage<br>
+
+Then you can plot the results within an interactive plot
+
+```julia
+@manipulate for from=9300, to=9344, grsand=20, grshale=100
+
+fig, axes=subplots(1,5,figsize=(10,5))
+    withfig(fig,clear=false) do
+        for ax in axes
+            ax.cla()
+        end
+
+subplot(151)        
+ LithoTrack(Logs.Md,Logs.GammaRay,SponPot=Logs.SP,DepthFrom=from,DepthTo=to,
+            WellUnit=Units[:,[:MdTop,:MdBottom]],GRSand=[grsand,from,to],GRShale=[grshale,from,to])
+subplot(152)
+ VshTrack(Logs.Md,Logs.Vsh,DepthFrom=from,DepthTo=to,PhiePlot=Logs.Phie)
+
+subplot(153)
+ PoroTrack(Logs.Md,Logs.Density,Logs.NeutronSand,DepthFrom=from,DepthTo=to)       
+
+ subplot(154)        
+ResTrack(Logs.Md,Res=[Logs.ShallowRes Logs.MediumRes Logs.DeepRes],DepthFrom=from,DepthTo=to)
+
+  subplot(155)
+SwTrack(Logs.Md,Logs.Sw,DepthFrom=from,DepthTo=to)       
+    end
+end
+```
+<img src="WellLog_Ex1.PNG"><br>
