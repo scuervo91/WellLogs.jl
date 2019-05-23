@@ -1,4 +1,20 @@
+"""
+VshTrack(args...)  -> PyPlot Plot
 
+Return a plot of Vshale logs and optionally Effective porosity in a single track.
+
+<br> The next table show the list of variables allowed:
+
+<br> The next table show the list of variables allowed:
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|Depth|Mandatory| -- | Array{Number,1}| 1D Array of Depths|
+|Vsh|Mandatory| -- | Array{Number,1}|1D Array of Vshale Values|
+|PhiePlot|Optional| -- | Array{Number,1}|1D Array of Phie Values|
+|DepthFrom|Optional| minimum(Depth) | Number |Set the Depth upper limit to plot|
+|DepthTo|Optional| maximum(Depth) | Number |  Set the Depth lower limit to plot|
+|Dtick|Optional|true|Dtick=Bool|Set the Depth ticks On/Off|
+"""
 function VshTrack(Depth,Vsh;DepthFrom=minimum(Depth),DepthTo=maximum(Depth),Dtick=false,PhiePlot=false)
 vshax=gca()
 vshax.plot(Vsh,Depth,linewidth=1,linestyle="--",color="black")

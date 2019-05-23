@@ -1,3 +1,5 @@
+<img src="WellLogsLogo.png"><br>
+
 # WellLogs.jl
 
 ## Introduction

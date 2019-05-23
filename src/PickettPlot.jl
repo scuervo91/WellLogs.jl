@@ -1,6 +1,6 @@
 @userplot pickett
 
-@recipe function f(h::pickett,
+@recipe function f(h::pickett;
                     a=1,m=2,n=2,      #Default values for Archie equation
                     Sw=range(0.2,stop=1,length=5),  #Default Sw range to plot
                     WellName=false)
@@ -40,7 +40,7 @@ title --> (WellName==false ? :none : WellName)
 yticks --> [0.01,0.1,1]
 legend --> :bottomleft
 
-c=range(RGB(0.0,1.0,0.0),stop=RGB(0.0,0.0,1.0),length=lenght(Sw))
+c=range(RGB(0.0,1.0,0.0),stop=RGB(0.0,0.0,1.0),length=length(Sw))
 
 cg=ColorGradient(c)
 legendtitle := "Water Saturations[]"
@@ -48,7 +48,7 @@ xmirror := true
 
 @series begin
     seriestype := :path
-    line_z := (1:5)'
+    line_z := (1:length(Sw))'
     linecolor := cg
     linewidth := 3
     lab := map(string,round.(Sw,digits=2))

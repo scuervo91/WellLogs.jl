@@ -1,6 +1,19 @@
-###########################################################
-#Water Saturation Track
-###########################################################
+"""
+SwTrack(args...)  -> PyPlot Plot
+
+Return a plot of Sw log in a single track.
+
+<br> The next table show the list of variables allowed:
+
+<br> The next table show the list of variables allowed:
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|Depth|Mandatory| -- | Array{Number,1}| 1D Array of Depths|
+|Sw|Mandatory| -- | Array{Number,1}|1D Array of Sw Values|
+|DepthFrom|Optional| minimum(Depth) | Number |Set the Depth upper limit to plot|
+|DepthTo|Optional| maximum(Depth) | Number |  Set the Depth lower limit to plot|
+|Dtick|Optional|true|Dtick=Bool|Set the Depth ticks On/Off|
+"""
 function SwTrack(Depth,Sw;DepthFrom=minimum(Depth),DepthTo=maximum(Depth),Dtick=false)
     swax=gca()
     swax.plot(Sw,Depth,linewidth=1,color="black")

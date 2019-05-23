@@ -1,4 +1,44 @@
-function OOIP(;Area=640,Height=1,Phi=0, Sw=0, Bo=0,
+"""
+OOIP(args...)
+
+Calcute the Original Oil In Place either Deterministic or Probabilistic
+
+``OGIP=\\frac { 7.758\\times { 10 }^{ -- }\\quad A\\quad h\\quad Phi\\quad (1-Sw) }{ BO } `` in MMbbl
+
+ ## *Deterministic Estimation*
+ ### Example
+```julia
+    OGIP(Area=600,Height=30,Phi=0.3,Sw=0.3, Temp=180, Pres=2800, z=0.99)
+    Original Gas In Place Deterministic Results
+     Area = 600 Acre
+    Height= 30 ft
+     Phi= 0.3
+     Sw= 0.3
+     Bg= 0.006393798639642858 ft3|scf
+    ---------
+    OGIP=25.752578284072662 Bscf
+```
+## Probabilistic estimations
+### Example
+```julia
+OOIP(Area=640,Height=60,Phi=0.18, Sw=0.4, Bo=1.1, PhiDist=Normal(0.18,0.05), SwDist=Normal(0.3,0.07))
+
+Original Oil In Place Probabilistic Results
+ Area = 640 Acre
+ Height= 60 ft
+ Bo= 1.1 bbl/stb
+ Percentiles [0.1, 0.5, 0.9]
+ Phi       [0.115963, 0.18001, 0.244082]
+ Sw       [0.210295, 0.300001, 0.389709]
+ ---------
+ Ooip=      [20.9416, 33.8834, 47.0785] MMbbl
+ ```
+
+Number of samples n can be set. Default n=1000
+<br>Percentiles can be set. Default Perc=[0.1,0.5,0.9]
+<br> A plot can be display by setting DistHist=true. Default DisHist=false
+"""
+function OOIP(;Area=640,Height=1,Phi=0, Sw=0, Bo=1,
                 PhiDist=Normal(), SwDist=Normal(), n=1000,
                 DisHist=false,
                 Perc=[0.1,0.5,0.9])

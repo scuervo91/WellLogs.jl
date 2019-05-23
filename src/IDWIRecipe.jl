@@ -1,19 +1,37 @@
-@userplot iwm
+"""
+idwi(args...)  -->Plot
 
-@recipe function f(h::iwm; m=100, n=100, p=2, Fill=true, Color = :Spectral, Levels=false, Title=false)
+iwm is a Plot Recipe in which makes a spatial interpolation of data provided applying Inverse Weight Mapping.
 
-    fill --> Fill
-    ylabel -->"North [m]"
-    xlabel -->"East [m]"
-    color --> Color
 
-    if Levels!=false
-        levels:=Levels
-    end
+General equation for spatial interpolation is:
+``{ Z }^{ * }=\\sum _{ i=1 }^{ n }{ { \\lambda  }_{ i }{ z }_{ i } } ``
 
-    if Title!=false
-        title := title
-    end
+where ``\\lambda`` is the weight Parameter
+
+Applying the Inverse‐Distance Weighted Interpolation
+
+``{ Z }\\left( x \\right) =\\frac { \\sum _{ i=1 }^{ n }{ { w }_{ i }{ z }_{ i } }  }{ \\sum _{ i=1 }^{ n }{ { z }_{ i } }  } \\\\ \\\\ { w }_{ i }=\\frac { 1 }{ { d }_{ i }^{ n } } ``
+
+<br> The next table show the list of variables allowed:
+
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|x|Mandatory|--|Array{Number,1}| X values|
+|y|Mandatory|--|Array{Number,1}| Y values|
+|z|Mandatory|--|Array{Number,1}| Z values|
+|m|Optional|m=100|m=number| Number of grids in y axis|
+|n|Optional|n=100|n=number| Number of grids in x axis|
+|p|Optional|p=2|p=number| IDWI exponent. The greater more influenced by near points|
+"""
+@userplot idwi
+
+@recipe function f(h::idwi; m=100, n=100, p=2)
+
+
+    ylabel --> "North [m]"
+    xlabel --> "East [m]"
+    seriescolor --> :Spectral
 
 x, y, z = h.args
 
@@ -68,6 +86,7 @@ x, y, z = h.args
 @series begin
     seriestype := :contour
     clabels := true
+    fill --> true
     Xrange, Yrange, Z
 end
 end

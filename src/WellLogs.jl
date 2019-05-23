@@ -10,7 +10,7 @@ using RecipesBase
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot, OGIP, OOIP, TopDistance, InverseWeightMap
+        PickettPlot, OGIP, OOIP, TopDistance
 
 #Track functions
 include("KhTrack.jl")
@@ -40,10 +40,10 @@ include("OGIP.jl")
 include("OOIP.jl")
 
 include("TopDistance.jl")
-include("InverseWeightMap.jl")
+
 
 #Plot Recipes
-include("IwmRecipe.jl")
+include("IDWIRecipe.jl")
 
 
 end # module

@@ -1,3 +1,43 @@
+"""
+OGIP(args...)
+
+Calcute the Original Gas In Place either Deterministic or Probabilistic
+
+``OGIP=\\frac { 4.356\\times { 10 }^{ -5 }\\quad A\\quad h\\quad Phi\\quad (1-Sw) }{ Bg } `` in Bscf or MMMscfd
+<br> Bg can be supplied or be calculated with a Pressure, Temperature in °F and Z
+<br>``Bg=\\frac { 0.02827\\quad z\\quad T }{ P } `` in ft3/scf. From Tarek Ahmed Reservoir Handbook 4ed pg 66
+ ## *Deterministic Estimation*
+ ### Example
+ ```julia
+     OGIP(Area=600,Height=30,Phi=0.3,Sw=0.3, Temp=180, Pres=2800, z=0.99)
+     Original Gas In Place Deterministic Results
+     Area = 600 Acre
+     Height= 30 ft
+     Phi= 0.3
+     Sw= 0.3
+     Bg= 0.006393798639642858 ft3|scf
+    ---------
+    OGIP=25.752578284072662 Bscf
+```
+## Probabilistic estimations
+### Example
+```julia
+    OGIP(Area=600,Height=30,Phi=0.3,Sw=0.3, Temp=180, Pres=2800, z=0.99,PhiDist=Normal(0.18,0.03), SwDist=Normal(0.3,0.05))
+
+    Original Gas In Place Probabilistic Results
+    Area = 600 Acre
+    Height= 30 ft
+    Bg= 0.006393798639642858 ft3|scf
+    Percentiles [0.1, 0.5, 0.9]
+    Phi       [0.141553, 0.18, 0.218447]
+    Sw       [0.235922, 0.3, 0.364078]
+    ---------
+    OGIP=      [12.1409, 15.4248, 19.1437] Bscf
+```
+Number of samples n can be set. Default n=1000
+<br>Percentiles can be set. Default Perc=[0.1,0.5,0.9]
+<br> A plot can be display by setting DistHist=true. Default DisHist=false
+"""
 function OGIP(;Area=640,Height=1,Phi=0, Sw=0, Bg=false,
                 Pres=0, Temp=0, z=0,
                 PhiDist=Normal(), SwDist=Normal(), n=1000,
