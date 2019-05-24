@@ -1,3 +1,30 @@
+"""
+pickett(args...)
+
+pickett is plot recipe which plots the Pickett Plot for Water Saturation
+
+Picket Plot is a graphical representation of the Archie Equation for estimating Sw
+
+by rearranging the Archie equation
+
+``{ Sw }^{ n }=\\frac { a\\quad { Rw } }{ { \\Phi  }^{ m }\\quad Rt } \\\\ \\\\ nLog\\left( Sw \\right) =Log\\left( a\\quad Rw \\right) -mLog\\left( \\phi  \\right) -Log(Rt)\\\\ \\\\ When\\quad Sw=1\\\\ \\\\ Log\\left( Rt \\right) =-mLog\\left( \\phi  \\right) +Log\\left( a\\quad Rw \\right)  ``
+
+Where a plot of scale Log-Log produces a straight line representing Sw=1 with a slope of ``-m`` and intercept at Phi=100% of ``a*Rw``
+
+Then, the desired Sw lines are plotted together with Rt and Phie from Logs.
+
+The next table show the list of variables allowed:
+
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|Rt|Mandatory|--|Array{Number,1}|Deep resistivity from Logs|
+|Phie|Mandatory|--|Array{Number,1}|Effective Porosity from Logs|
+|a|Optional|a=1|a=Number|a constant from archie Equation|
+|m|Optional|m=2|a=Number|m cementation constant from archie Equation|
+|n|Optional|n=2|a=Number|n exponent from archie Equation|
+|Sw|Optional|Sw=range(0.2,stop=1,length=5)|Sw=range(Initial Sw,stop=Final Sw,length=Number)|Range of Sw lines|
+|WellName|Optional|WellName=false|WellName="string"|Plot name|
+"""
 @userplot pickett
 
 @recipe function f(h::pickett;

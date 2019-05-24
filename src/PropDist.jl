@@ -1,3 +1,18 @@
+"""
+PropDist(args...)--> UnivariateDistribution
+
+Fit the given data to a specific statistical distribution
+Distributions.jl package is used to fit
+
+The next table show the list of variables allowed:
+
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|Prop|Mandatory|--|Array{Number,1}| Data to fit|
+|Distr|Optional|Normal|Distr=Distribution|Distribution to fit the data given|
+|PropName|Optional|PropName=false|PropName="string"|Property Name name|
+|HistColor|Optional|HistColor="darkblue"|HistColor=color| Histogram Color|
+"""
 function PropDist(  Prop;                  #Array or Datagrame with the property
                     Distr=Normal,        #Distribution to fit
                     DisHist=false,        #Determine if make an Histogram

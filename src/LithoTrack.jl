@@ -39,7 +39,6 @@ Return a plot of Lithology Logs (GammaRay and SP) in a single track.
 |LineCorrelate|Optional|false|LineCorrelate=Number|Add a horizontal line for correlation purposes|
 |Pay|Optional|false|Array{Bool,1}| Add a scatter line indicating the pay depth|
 |WellName|Optional|false|String <br> WellName="Name"|Add a Name for titles|
-
 """
 function LithoTrack(Depth,GammaRay;SponPot=false,DepthFrom=minimum(Depth),DepthTo=maximum(Depth),
                     spax_color="black",grax_color="darkgreen",

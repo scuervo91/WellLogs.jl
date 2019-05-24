@@ -1,3 +1,24 @@
+"""
+PetroPhysics(args...)
+
+Calculate basic petrophysics properties according the WellLog
+It is requiered that the WellLog be a DataFrame type with the columns of the new properties already created
+They can be created with the function ``AddColPetro``
+
+The next table show the list of variables allowed:
+
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|Log|Mandatory|--|DataFrame|Well Logs dataframe file|
+|DepthFrom|Mandatory| -- | Number |Set the Depth upper limit to estimate properties|
+|DepthTo|Mandatory| -- | Number |  Set the Depth lower limit to estimate properties|
+|Vsh|Optional|false|Vsh=[GrSand, GrShale]|Calculates the Vsh of the given interval|
+|Phie|Optional|false|Phie=true|Calculates the Phie of the given interval.It is requiered Vsh, DenPhi, and Neutron Logs|
+|Sw|Optional|false|Sw=[a,m,n,Rw]|Calculates the Sw of the given interval with archie parameters. It is requiered Phie and DeepRes logs|
+|Perm|Optional|false|Perm=[Fluid, Author]|Calculates the Permeability of the given interval with using Author and Fluids coeficients|
+|PayFlag|Optional|false|PayFlag=[VshCutoff,PhieCutOff,SwCutoff,KCutOff]|Calculates the Pay of the given interval using the CutOff specified|
+|Kh|Optional|false|Kh=true|Calculates the Flow Capacity and Normalized Cumulative Flow Capacity for picking perfs of the given interval|
+"""
 function PetroPhysics(Log,DepthFrom,DepthTo;    #range of depth to calculate Petrophysics
                      Vsh=false,                #If caculate Vshale   [GrSand, GrShale]
                      DenPhi=false,              #If caculate Porosity from Density Log  [RhoMatrix, RhoFluid]

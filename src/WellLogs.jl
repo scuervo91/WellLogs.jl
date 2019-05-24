@@ -10,7 +10,7 @@ using RecipesBase
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot, OGIP, OOIP, TopDistance
+        PickettPlot, OGIP, OOIP
 
 #Track functions
 include("KhTrack.jl")

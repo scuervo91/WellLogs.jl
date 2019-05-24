@@ -1,14 +1,35 @@
-function TopDistance(x,y;z=false,Names=false,Show=false,PlotTitle="", Xlabel="East_m", Ylabel="North_m")
+"""
+TopDistance(args...)
 
+Estimate the distance between points given. Plot either distance between each point or distance with respect to specific point
 
-    if size(x,1)!=size(y,1)                       #eval if input is equal
-        error("x & y must be equally sized")
+``D=\\sqrt { { \\left( { X }_{ 1 }-{ X }_{ 2 } \\right)  }^{ 2 }+{ \\left( { Y }_{ 1 }-{ Y }_{ 2 } \\right)  }^{ 2 }{ +\\left( { Z }_{ 1 }-{ Z }_{ 2 } \\right)  }^{ 2 } } ``
+
+The next table show the list of variables allowed:
+
+|PropertyName|Args|Default|Input|Description
+|---|---|---|---|---|
+|x|Mandatory|--|Array{number,1}|X coordinate of points|
+|y|Mandatory|--|Array{number,1}|Y coordinate of points|
+|z|Optional|z=false|Array{number,1}|z coordinate of points. If not set, a zeros array is established|
+|Names|Optional|Names=false|Array{String,1}|Name of each point. If not set a numbered list is created as a name|
+|Show|Optional|Show=false|Show=Number|Refers to a numbered point which distance between other points and this are shown <br> if not set, all distances are shown|
+"""
+@userplot topdistance
+
+@recipe function f(h::topdistance;
+            Names=false,Show=false)
+
+    if length(h.args)==2
+        x, y = h.args
+    elseif length(h.args)==3
+        x, y, z = h.args
     end
 
     n=size(x,1)  #Number of inputs
     list=1:n    #Numbered list of elements
 
-    if z==false      #If height not provided, zero vector is created
+    if length(h.args)==2      #If height not provided, zero vector is created
         z=zeros(n)
     end
 
@@ -53,29 +74,49 @@ function TopDistance(x,y;z=false,Names=false,Show=false,PlotTitle="", Xlabel="Ea
         end
     end
 
-
 # Plot the Distances
 
-p=Plots.scatter(x,y,leg=false,
-                title="Distances $PlotTitle",xlabel=Xlabel,ylabel=Ylabel,
-                yformatter=:auto)
 
-p=Plots.annotate!(x,y,map(x->Plots.text(x,:left,:top,8),Names))
-p=Plots.annotate!(AvrD.X,AvrD.Y,map(x->Plots.text("$x ",:left,:top,8),AvrD.Dist))
+@series begin
+    seriestype := :scatter
+    seriescolor := :black
+    series_annotations := map(x->text(x,:left,:top,13),Names)
+    x, y
+end
+#
+@series begin
+        seriestype := :scatter
+        seriescolor := :white
+        series_annotations := map(x->text(x ,:right,:top,8),AvrD.Dist)
+        AvrD.X,AvrD.Y
+end
+
+
+    ## Plot properties for union lines
+    seriestype := :path
+    linestyle := :dot
+    arrow := arrow(:open, :both )
+    seriescolor := :black
+    legend := false
+
 
 if Show==false  # If Show==false plot each distance of each well, otherwise plot distance Well choosed
     for i=1:n-1
         for j=i+1:n
-        p=Plots.plot!(x[[i,j]],y[[i,j]],arrow=:arrow,linestyle=:dot,color=:black)
+
+            @series begin
+                        x[[i,j]],y[[i,j]]
+                    end
         end
     end
 else
     for i in c
-         Plots.plot!(x[[Show,i]],y[[Show,i]],arrow=:arrow,linestyle=:dot,color=:black)
+                     @series begin
+                        x[[Show,i]],y[[Show,i]]
+                    end
     end
+
+
 end
 
-display(p)
-return Distance, AvrD
-
-end #End Function
+end

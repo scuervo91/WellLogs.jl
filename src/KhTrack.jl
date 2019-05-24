@@ -9,7 +9,7 @@ Return a plot Normalized Flow Capacity Kh logs in a single track.
 |PropertyName|Args|Default|Input|Description
 |---|---|---|---|---|
 |Depth|Mandatory| -- | Array{Number,1}| 1D Array of Depths|
-|Kh|Mandatory| -- | Array{Number,1}|1D Array of Vshale Values|
+|Kh|Mandatory| -- | Array{Number,1}|1D Array of Kh Values|
 |DepthFrom|Optional| minimum(Depth) | Number |Set the Depth upper limit to plot|
 |DepthTo|Optional| maximum(Depth) | Number |  Set the Depth lower limit to plot|
 |Dtick|Optional|true|Dtick=Bool|Set the Depth ticks On/Off|
