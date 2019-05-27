@@ -80,14 +80,14 @@ The next table show the list of variables allowed:
 @series begin
     seriestype := :scatter
     seriescolor := :black
-    series_annotations := map(x->text(x,:left,:top,13),Names)
+    series_annotations := map(x->Plots.text(x,:left,:top,13),Names)
     x, y
 end
 #
 @series begin
         seriestype := :scatter
         seriescolor := :white
-        series_annotations := map(x->text(x ,:right,:top,8),AvrD.Dist)
+        series_annotations := map(x->Plots.text(x ,:right,:top,8),AvrD.Dist)
         AvrD.X,AvrD.Y
 end
 
@@ -95,7 +95,7 @@ end
     ## Plot properties for union lines
     seriestype := :path
     linestyle := :dot
-    arrow := arrow(:open, :both )
+    arrow := Plots.arrow(:open, :both )
     seriescolor := :black
     legend := false
 

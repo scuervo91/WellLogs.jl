@@ -9,8 +9,8 @@ using DataFrames
 using RecipesBase
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
-        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics, PropDist,
-        PickettPlot, OGIP, OOIP
+        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics,
+        OGIP, OOIP
 
 #Track functions
 include("KhTrack.jl")
@@ -31,7 +31,7 @@ include("Vshale.jl")
 #Formula for include PetroPhysics estimates in well logs
 include("AddColPetro.jl")
 include("PetroPhysics.jl")
-include("PropDist.jl")
+include("PropHist.jl")
 include("PickettPlot.jl")
 
 

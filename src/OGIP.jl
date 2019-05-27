@@ -43,7 +43,8 @@ function OGIP(;Area=640,Height=1,Phi=0, Sw=0, Bg=false,
                 PhiDist=Normal(), SwDist=Normal(), n=1000,
                 DisHist=false,
                 Perc=[0.1,0.5,0.9],
-                Fsize=[7,7])
+                Phicolor= :darkred, Phialpha= 0.2,
+                Swcolor= :darkblue, Swalpha= 0.2)
 
           #When is only a well for the analysis the area is ussually difined as 640 acres
      #https://www.spec2000.net/16-ooip.htm
@@ -62,18 +63,16 @@ function OGIP(;Area=640,Height=1,Phi=0, Sw=0, Bg=false,
         Ogip=map((x,y)->0.000043560*Area*Height*x*(1-y)/Bg,PhiSample,SwSample)
         if DisHist!=false
 
-        fig=subplots(2,2,figsize=Fsize)
-        subplot(211)
-        PropDist(Ogip,PropName="Original Gas In Place [Bscf]",DisHist=true,HistColor="darkred")
-        subplot(223)
-        PropDist(PhiSample,PropName="Porosity",DisHist=true,HistColor="darkgreen")
-        subplot(224)
-        PropDist(SwSample,PropName="Water Saturation",DisHist=true,HistColor="darkblue")
-        subplots_adjust(hspace=0.5)
-            end
+        p1=prophist(Ogip,Normal,title="Original Gas In Place [Bscf]")
+        p2=prophist(PhiSample,Normal,seriescolor= Phicolor, seriesalpha= Phialpha, title="Porosity")
+        p3=prophist(SwSample,LogNormal,seriescolor= Swcolor, seriesalpha= Swalpha,title="Water Saturation")
+        p=Plots.plot(p1,p2,p3, layout=(3,1))
+        display(p)
+        end
+
             PhiQ=quantile.(Truncated(PhiDist,0,1),Perc)
             SwQ=quantile.(Truncated(SwDist,0,1),Perc)
-        OgipQ=quantile!(Ogip,Perc)
+            OgipQ=quantile!(Ogip,Perc)
 
         println("Original Gas In Place Probabilistic Results \n Area = $Area Acre \n Height= $Height ft \n Bg= $Bg ft3|scf \n Percentiles $Perc \n Phi       $PhiQ \n Sw       $SwQ \n --------- \n OGIP=      $OgipQ Bscf")
 
@@ -83,12 +82,10 @@ function OGIP(;Area=640,Height=1,Phi=0, Sw=0, Bg=false,
 
         if DisHist!=false
 
-        fig=subplots(2,1,figsize=(5,5))
-        subplot(211)
-        PropDist(Ogip,PropName="Original Gas In Place [Bscf]",DisHist=true,HistColor="darkred")
-        subplot(212)
-        PropDist(PhiSample,PropName="Porosity",DisHist=true,HistColor="darkgreen")
-        subplots_adjust(hspace=0.5)
+        p1=prophist(Ogip,Normal,title="Original Gas In Place [Bscf]")
+        p2=prophist(PhiSample,Normal,seriescolor= Phicolor, seriesalpha= Phialpha,title="Porosity")
+        p=Plots.plot(p1,p2, layout=(2,1))
+            display(p)
             end
         PhiQ=quantile.(Truncated(PhiDist,0,1),Perc)
         OgipQ=quantile!(Ogip,Perc)
@@ -99,14 +96,12 @@ println("Original Gas In Place Probabilistic Results \n Area = $Area Acre \n Hei
         SwSample=rand(Truncated(SwDist,0,1),n)
         Ogip=map(x->0.000043560*Area*Height*Phi*(1-x)/Bg,SwSample)
 
-                if DisHist!=false
+         if DisHist!=false
 
-        fig=subplots(2,1,figsize=(5,5))
-        subplot(211)
-        PropDist(Ogip,PropName="Original Gas In Place [Bscf]",DisHist=true,HistColor="darkred")
-        subplot(212)
-        PropDist(SwSample,PropName="Water Saturation",DisHist=true,HistColor="darkblue")
-        subplots_adjust(hspace=0.5)
+        p1=prophist(Ogip,Normal,title="Original Gas In Place [Bscf]")
+        p2=prophist(SwSample,LogNormal,seriescolor= Swcolor, seriesalpha= Swalpha,title="Water Saturation")
+        p=Plots.plot(p1,p2, layout=(2,1))
+        display(p)
             end
         SwQ=quantile.(Truncated(SwDist,0,1),Perc)
         OgipQ=quantile!(Ogip,Perc)

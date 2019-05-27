@@ -26,7 +26,7 @@ Applying the Inverse‐Distance Weighted Interpolation
 """
 @userplot idwi
 
-@recipe function f(h::idwi; m=100, n=100, p=2)
+@recipe function f(h::idwi; m=100, n=100, p=2, surf=false)
 
 
     ylabel --> "North [m]"
@@ -82,11 +82,19 @@ x, y, z = h.args
     Z=reshape(Zvec,m,n)
 
 #Coutour series
-
+if surf==true
+    @series begin
+        seriestype := :surface
+        zflip := true
+        Xrange, Yrange, Z
+        end
+else
 @series begin
     seriestype := :contour
     clabels := true
     fill --> true
+
     Xrange, Yrange, Z
+end
 end
 end
