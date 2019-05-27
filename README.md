@@ -157,7 +157,9 @@ end
 ```
 <img src="WellLog_Ex2.PNG"><br>
 
-### Other features
+## Other features
+
+### Picket Plot  
 
 A picket plot can be added by calling PickettPlot function
 
@@ -170,5 +172,53 @@ function PickettPlot(Rt,Phie,Rw;      #Must provide Rt, Phie and Rw
 .....................
 PickettPlot(LC1.DeepRes,LC1.Phie,0.8)
 ```
-
 <img src="WellLog_Ex3.PNG"><br>
+
+### Distance between points
+
+You can plot the distancew between points giving x, y and optionally z coordinates.
+
+```Julia
+xs=[20.,35.,3.]
+ys=[45.,25.,25.]
+n=["Point A","Point B","Point C"]
+
+topdistance(xs,ys, Names=n, Show=2, title="All Distances Between Three Points", xlim=(0,50), ylim=(15, 60))
+```
+<img src="WellLog_Ex4.PNG"><br>
+
+You can choose only one point to see all distances with respect of it.  
+For example, to plot distances with respect the second point ("Point B") just add ```Show=3```
+```Julia
+topdistance(xs,ys, Names=n, Show=2, title="All Distances Between Three Points", xlim=(0,50), ylim=(15, 60))
+```
+<img src="WellLog_Ex5.PNG"><br>
+
+### Spatial Interpolation to plot Coutour Maps  
+
+You can make spatial interpolations and plot the results in a contour map using idwi (Inverse Distance Weight Interpolation)
+
+```julia  
+x=rand(collect(1.:50.),10)
+y=rand(collect(1.:50.),10)
+z=rand(collect(100.:500.),10)
+
+idwi(x,y,z, title="Contour map by Inverse Weight Interpolation")
+```
+<img src="WellLog_Ex6.PNG"><br>
+
+You can modify the grids to interpolate as well as the exponent of the idwi method. Besides, you can combine the distance plot with a contour plot.
+
+```julia
+x=rand(collect(1.:30.),10)
+y=rand(collect(1.:30.),10)
+z=rand(collect(100.:500.),10)
+
+xs=[5.,15.,20.]
+ys=[10.,20.,27.]
+n=["Point A","Point B","Point C"]
+
+idwi(x,y,z, n=100, m=100, p=2,title="All Distances Between Three Points and Contour Map", seriescolor = :heat)
+topdistance!(xs,ys, Names=n, Show=2)
+```
+<img src="WellLog_Ex7.PNG"><br>
