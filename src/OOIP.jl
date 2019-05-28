@@ -41,8 +41,9 @@ Number of samples n can be set. Default n=1000
 function OOIP(;Area=640,Height=1,Phi=0, Sw=0, Bo=1,
                 PhiDist=Normal(), SwDist=Normal(), n=1000,
                 DisHist=false,
-                Perc=[0.1,0.5,0.9])
-
+                Perc=[0.1,0.5,0.9],
+                Phicolor= :darkred, Phialpha= 0.2,
+                Swcolor= :darkblue, Swalpha= 0.2)
           #When is only a well for the analysis the area is ussually difined as 640 acres
      #https://www.spec2000.net/16-ooip.htm
 
@@ -55,10 +56,10 @@ function OOIP(;Area=640,Height=1,Phi=0, Sw=0, Bo=1,
         Ooip=map((x,y)->0.007758*Area*Height*x*(1-y)/Bo,PhiSample,SwSample)
         if DisHist!=false
 
-        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]")
-        p2=prophist(PhiSample,Normal,title="Porosity")
-        p3=prophist(SwSample,LogNormal,title="Water Saturation")
-        p=plot(p1,p2,p3, layout=(3,1))
+        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]", seriescolor= :darkgreen)
+        p2=prophist(PhiSample,Normal,seriescolor= Phicolor, seriesalpha= Phialpha, title="Porosity")
+        p3=prophist(SwSample,LogNormal,seriescolor= Swcolor, seriesalpha= Swalpha,title="Water Saturation")
+        p=Plots.plot(p1,p2,p3, layout=(3,1))
         display(p)
             end
         PhiQ=quantile.(Truncated(PhiDist,0,1),Perc)
@@ -72,9 +73,9 @@ function OOIP(;Area=640,Height=1,Phi=0, Sw=0, Bo=1,
         Ooip=map(x->0.007758*Area*Height*x*(1-Sw)/Bo,PhiSample)
 
         if DisHist!=false
-        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]")
-        p2=prophist(PhiSample,Normal,title="Porosity")
-        p=plot(p1,p2, layout=(2,1))
+        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]",seriescolor= :darkgreen)
+        p2=prophist(PhiSample,Normal,seriescolor= Phicolor, seriesalpha= Phialpha, title="Porosity")
+        p=Plots.plot(p1,p2, layout=(2,1))
         display(p)
             end
         PhiQ=quantile.(Truncated(PhiDist,0,1),Perc)
@@ -88,9 +89,9 @@ println("Original Oil In Place Probabilistic Results \n Area = $Area Acre \n Hei
 
                 if DisHist!=false
 
-        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]")
-        p2=prophist(SwSample,LogNormal,title="Water Saturation")
-        p=plot(p1,p2, layout=(2,1))
+        p1=prophist(Ooip,Normal,title="Original Oil In Place[MMbbl]", seriescolor= :darkgreen )
+        p2=prophist(SwSample,LogNormal,seriescolor= Swcolor, seriesalpha= Swalpha,title="Water Saturation")
+        p=Plots.plot(p1,p2, layout=(2,1))
         display(p)
             end
         SwQ=quantile.(Truncated(SwDist,0,1),Perc)

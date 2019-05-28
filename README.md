@@ -222,3 +222,49 @@ idwi(x,y,z, n=100, m=100, p=2,title="All Distances Between Three Points and Cont
 topdistance!(xs,ys, Names=n, Show=2)
 ```
 <img src="WellLog_Ex7.PNG"><br>
+
+### Volumetrics Estimations - Original Oil In Place & Original Gas In Place
+
+You can perform Volumetrics Calulations both Deterministic and Probabilistic.  
+
+From the Well Logs, you can estimate the probability distribution of certain property whose parameters can be used as input for volumetrics calculations.
+
+For example
+
+The Probability distribution of any variable can be estimate using ```fit``` function of Distrubition.jl Package.
+```julia
+PhieDistribution=fit(Normal,Logs.Phie.*1)
+SwDistribution=fit(LogNormal,Logs.Sw.*1)
+```
+It also can be plotted
+
+```julia
+p1=prophist(Logs.Phie,Normal,seriescolor= :darkred, seriesalpha=:0.2, title="Porosity")
+p2=prophist(Logs.Sw,LogNormal,seriescolor= :darkblue, seriesalpha=:0.2,title="Water Saturation")
+p=Plots.plot(p1,p2, layout=(2,1))
+```
+<img src="WellLog_Ex8.PNG"><br>
+
+Once you have the some distribution for your properties, you can estimate probabilistically volumetrics calculations with P10, P50 and P90 Percentiles.
+
+```julia
+OGIP(Area=458,Height=26.3, Pres=3940, Temp=180,z=0.99,PhiDist=PhieDistribution,SwDist=SwDistribution,DisHist=true)
+```
+<img src="WellLog_Ex9.PNG"><br>
+
+```julia
+OOIP(Area=458,Height=26.3, Bo=1.2 ,PhiDist=Normal(0.1,0.02),Sw=0.55, Perc=[0.2 0.6 0.8], DisHist=true)
+```
+<img src="WellLog_Ex11.PNG"><br>
+
+Deterministic calculations can also be performed as well
+
+```julia
+OOIP(Area=458,Height=26.3, Bo=1.2 ,Phi=0.07,Sw=0.55)
+```
+<img src="WellLog_Ex10.PNG"><br>
+
+```julia
+OGIP(Area=500,Height=20, Bg=0.005812 ,Phi=0.18,Sw=0.2 )
+```
+<img src="WellLog_Ex12.PNG"><br>
