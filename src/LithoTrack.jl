@@ -62,7 +62,7 @@ if SponPot != false
     spax.set_xlabel("Sp")                                     #Set the x label
     xticks(range(minimum(SponPot[SponPot.>-999.25]),maximum(SponPot[SponPot.>-999.25]),length=4))      #Set the intervals of ticks
     spax.set_xlim([minimum(SponPot[SponPot.>-999.25]),maximum(SponPot[SponPot.>-999.25])])                  #Set x Limits
-    spax.tick_params("both",labelsize=6)                      #Set fontsize of both axis
+    spax.tick_params("both",labelsize=8)                      #Set fontsize of both axis
     spax.grid(true)                                           #Set the grid
     f = matplotlib.ticker.FormatStrFormatter("%1.2f")         #
     spax.xaxis.set_major_formatter(f)                         # Set format of tick labels
@@ -78,7 +78,7 @@ grax.plot(GammaRay,Depth,color=grax_color)
     xlabel("GammaRay")
     xticks(0:50:GRMax)
     grax.set_xlim([0,GRMax])
-    grax.tick_params("both",labelsize=6)
+    grax.tick_params("both",labelsize=8)
     grax.grid(true)
     setp(grax.get_yticklabels(),visible=Dtick)
     grax.set_yticks(range(DepthFrom, stop=DepthTo, length=51),minor=true)

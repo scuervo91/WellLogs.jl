@@ -4,7 +4,7 @@ ResTrack(args...)  -> PyPlot Plot
 
 Return a plot of resistivities logs in a single track.
 
-<br> The next table show the list of variables allowed:
+<br> The next table show the list of variables allowed: 
 |PropertyName|Args|Default|Input|Description
 |---|---|---|---|---|
 |Depth|Mandatory| -- | Array{Number,1}| 1D Array of Depths|
