@@ -25,12 +25,13 @@ The next table show the list of variables allowed:
     DisParam=params(DisProp)
     FitProp=pdf.(DisProp, PropRange);
     Quant=quantile.(DisProp,[0.1,0.5,0.9])
-    legend --> false
+
 @series begin
         seriestype := :histogram
         normalize := true
         bins := bins=round(Int,sqrt(size(x,1)))
         seriescolor --> :red
+        label --> "Histogram"
         x
     end
 
@@ -39,11 +40,9 @@ The next table show the list of variables allowed:
         linestyle := :dash
         linewidth := 3
         linecolor --> :black
-
+        label --> "Probabilitic Distribution Fitted"
         PropRange, FitProp
 
  end
- println("Percentiles 10% - %50 - 90% \n         $Quant ")
-
-
+println("Percentiles 10% - %50 - 90% \n         $Quant ")
 end

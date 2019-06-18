@@ -10,7 +10,7 @@ using RecipesBase
 
 export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
         Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics,
-        OGIP, OOIP, meshgrid, VDLTrack, CBLTrack, CCLTrack, Reg
+        OGIP, OOIP, meshgrid, VDLTrack, CBLTrack, CCLTrack, Reg, CalTrack
 
 #Track functions
 include("KhTrack.jl")
@@ -23,6 +23,8 @@ include("PoroTrack.jl")
 include("VdlTrack.jl")
 include("CblTrack.jl")
 include("CCLTrack.jl")
+include("CalTrack.jl")
+
 
 #Utility Functions
 include("meshgrid.jl")
