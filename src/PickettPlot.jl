@@ -28,16 +28,16 @@ The next table show the list of variables allowed:
 @userplot pickett
 
 @recipe function f(h::pickett;
-                    a=1,m=2,n=2,      #Default values for Archie equation
+                    a=1,M=2,n=2,      #Default values for Archie equation
                     Sw=range(0.2,stop=1,length=5),  #Default Sw range to plot
                     WellName=false)
 
 Rt, Phie, Rw=h.args
 
 PhieRange=range(0.01,stop=1,length=5)        #Porosity range to map Sw lines
-PhieRT1=(1/Rw).^(1/-m)                       #Porosiy at Rt=1 to estimate others Sw lines
-rts=map(x->(a.*Rw)/(PhieRT1 .^m .* x.^n),Sw) # Rt at Sw Range with porosity PhieRT1
-ResPhie1=map(x->(x.*PhieRT1.^m)./a,rts)        # Intercept of every SW to plot each lines at Phie=1
+PhieRT1=(1/Rw).^(1/-M)                       #Porosiy at Rt=1 to estimate others Sw lines
+rts=map(x->(a.*Rw)/(PhieRT1 .^M .* x.^n),Sw) # Rt at Sw Range with porosity PhieRT1
+ResPhie1=map(x->(x.*PhieRT1.^M)./a,rts)        # Intercept of every SW to plot each lines at Phie=1
 lines=zeros(size(PhieRange,1),size(Sw,1))   #Array of zeros of lines Array
 Txpos=zeros(size(Sw,1))
 Typos=0.9-0.1*size(Sw,1):0.1:0.9            #Array of Saturation Text positions
@@ -45,8 +45,8 @@ Typos=0.9-0.1*size(Sw,1):0.1:0.9            #Array of Saturation Text positions
 j=0
 for i in ResPhie1                              #Calculate Sw Lines
     j=j+1
-    lines[:,j]=map(x->a.*i.*x.^-m,PhieRange)
-    Txpos[j]=a.*i.*Typos[j].^-m
+    lines[:,j]=map(x->a.*i.*x.^-M,PhieRange)
+    Txpos[j]=a.*i.*Typos[j].^-M
 end
 
 tck=map(string,round.(Sw,digits=2))
@@ -63,7 +63,8 @@ yminorgrid := true
 title_location := :left
 xlabel := "Rt[Ohm m]"
 ylabel := "Phie[]"
-title --> (WellName==false ? :none : WellName)
+xformatter --> :plain
+yformatter --> :plain
 yticks --> [0.01,0.1,1]
 legend --> :bottomleft
 

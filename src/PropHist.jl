@@ -24,7 +24,7 @@ The next table show the list of variables allowed:
     DisProp=Distributions.fit(d, x[:]*1)
     DisParam=params(DisProp)
     FitProp=pdf.(DisProp, PropRange);
-
+    Quant=quantile.(DisProp,[0.1,0.5,0.9])
     legend --> false
 @series begin
         seriestype := :histogram
@@ -39,10 +39,11 @@ The next table show the list of variables allowed:
         linestyle := :dash
         linewidth := 3
         linecolor --> :black
+
         PropRange, FitProp
 
  end
-
+ println("Percentiles 10% - %50 - 90% \n         $Quant ")
 
 
 end
