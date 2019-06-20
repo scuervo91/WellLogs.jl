@@ -16,7 +16,7 @@ There are five topics in which the project is going to be focused on:
 <br> The package will always be in permanent development and open to suggestions to enhance the program. As the code has been written so far by a code enthusiastic Petroleum Engineer I hope to learn as much as possible to get better and usefull programs.
 
 ## WellLogs.jl Description
-WellLogs.jl is package to visualize Oil And Gas Well logs in order to make interpretetion and petrophysics analysis via PyPlot plots.
+WellLogs.jl is a package to visualize Oil And Gas Well logs in order to make interpretetion and petrophysics analysis via PyPlot plots.
 
 <br> The visualization of logs is based on Tracks functions. Each log track is implemented through a single function that plot the desired data. For example, the Lithology Track is composed generally by GammaRay and Sp logs, so LithoTrack function can plot the GammaRay and SP logs with optional features like add Well tops (Formations or Units), Gr clean and Gr shale to Vshale estimations, etc...
 

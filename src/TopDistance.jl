@@ -80,14 +80,14 @@ The next table show the list of variables allowed:
 @series begin
     seriestype := :scatter
     seriescolor := :black
-    series_annotations := map(x->Plots.text(x,:left,:top,13),Names)
+    series_annotations := map(x->Plots.text(x,:left,:top,8),Names)
     x, y
 end
 #
 @series begin
         seriestype := :scatter
         seriescolor := :white
-        series_annotations := map(x->Plots.text(x ,:right,:top,8),AvrD.Dist)
+        series_annotations := map(x->Plots.text("$x m" ,:right,:top,8),AvrD.Dist)
         AvrD.X,AvrD.Y
 end
 
@@ -97,7 +97,7 @@ end
     linestyle := :dot
     arrow := Plots.arrow(:open, :both )
     seriescolor := :black
-    legend := false
+    legend --> false
 
 
 if Show==false  # If Show==false plot each distance of each well, otherwise plot distance Well choosed
