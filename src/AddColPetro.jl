@@ -32,6 +32,7 @@ function AddColPetro(Log;Vsh=false,
        Log.Perm=zeros(size(Log,1))
        Log.PayFlag=zeros(size(Log,1))
        Log.Kh=zeros(size(Log,1))
+       Log.KhCum=zeros(size(Log,1))
        Log.DenPhi=zeros(size(Log,1))
     else
 

@@ -4,7 +4,7 @@ ResTrack(args...)  -> PyPlot Plot
 
 Return a plot of resistivities logs in a single track.
 
-<br> The next table show the list of variables allowed: 
+<br> The next table show the list of variables allowed:
 |PropertyName|Args|Default|Input|Description
 |---|---|---|---|---|
 |Depth|Mandatory| -- | Array{Number,1}| 1D Array of Depths|
@@ -22,8 +22,8 @@ function ResTrack(Depth;Res,DepthFrom=minimum(Depth),DepthTo=maximum(Depth),
 n=size(Res,2)
 pcolor=range(c1, stop=c2, length=n)
 pcols = map(col -> (red(col), green(col), blue(col)), pcolor)
-linestyles=["--","-","-","-"]
-linewidths=[0.5,1,1.5,1.5]
+linestyles=["--","-","-","-","-"]
+linewidths=[0.5,1,1.5,1.5,1.5]
 rsax=gca()
 for i=1:n
     rsax.plot(Res[:,i],Depth,color=pcols[i],linestyle=linestyles[i],linewidth=linewidths[i])

@@ -148,7 +148,7 @@ grax.set_title(WellName)
  if Pay!=false
  rt=findall(x->x==1,Pay)
  Payd=Depth[rt]
- yPay=zeros(size(Payd,1)).+148
+ yPay=zeros(size(Payd,1)).+10
  grax.scatter(yPay,Payd,color="red",linewidth=4)
  end
 

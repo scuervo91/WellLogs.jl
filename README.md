@@ -114,7 +114,7 @@ names(Logs)
  Once the columns required are created, it is estimated the petrophysics calculation by PetroPhysics function
 
  ```julia
- Logs=PetroPhysics(Logs,9010,10172,Vsh=[19,73],DenPhi=[2.65,1],Phie=true,Sw=[0.62,2.15,2,0.8],Perm=["Gas","Timur"]);
+ Logs=PetroPhysics(Logs,9100,9300,Vsh=[26,178],DenPhi=[2.65,1],Phie=true,Sw=[0.62,2.15,2,0.5, Logs.Phie, Logs.DeepRes],Perm=["Oil","Timur"], PayFlag=[0.5,0.1,0.5,10], Kh=true);
  ```
 |Parameter|Description
 |---|---|
@@ -130,32 +130,98 @@ names(Logs)
 Then you can plot the results within an interactive plot:
 
 ```julia
-@manipulate for from=9300, to=9344, grsand=20, grshale=100
+@manipulate for from=9100, to=9300, grsand=16, grshale=178
 
-fig, axes=subplots(1,5,figsize=(10,5))
+fig, axes=subplots(1,7,figsize=(15,5))
     withfig(fig,clear=false) do
         for ax in axes
             ax.cla()
         end
 
-subplot(151)        
+subplot(171)        
  LithoTrack(Logs.Md,Logs.GammaRay,SponPot=Logs.SP,DepthFrom=from,DepthTo=to,
-            WellUnit=Units[:,[:MdTop,:MdBottom]],GRSand=[grsand,from,to],GRShale=[grshale,from,to])
-subplot(152)
+           Pay=Logs.PayFlag,GRSand=[grsand,from,to],GRShale=[grshale,from,to], GRMax=200)
+subplot(172)
  VshTrack(Logs.Md,Logs.Vsh,DepthFrom=from,DepthTo=to,PhiePlot=Logs.Phie)
 
-subplot(153)
+subplot(173)
  PoroTrack(Logs.Md,Logs.Density,Logs.NeutronSand,DepthFrom=from,DepthTo=to)       
 
- subplot(154)        
-ResTrack(Logs.Md,Res=[Logs.ShallowRes Logs.MediumRes Logs.DeepRes],DepthFrom=from,DepthTo=to)
+ subplot(174)        
+ResTrack(Logs.Md,Res=[Logs.R20O Logs.R30O Logs.R40O Logs.R85O Logs.RTAO],DepthFrom=from,DepthTo=to)
 
-  subplot(155)
+  subplot(175)
 SwTrack(Logs.Md,Logs.Sw,DepthFrom=from,DepthTo=to)       
+
+  subplot(176)
+PermTrack(Logs.Md,Logs.Perm,DepthFrom=from,DepthTo=to)
+
+  subplot(177)
+  KhTrack(Logs.Md,Logs.KhCum,DepthFrom=from,DepthTo=to)      
     end
 end
 ```
 <img src="WellLog_Ex2.PNG"><br>
+
+You can make both structural and stratigraphic correlations.
+
+```julia  
+from=2010
+to=2780
+c=2223
+
+fig, axes=subplots(1,10,figsize=(16,12))
+
+subplot(1,10,1)
+LithoTrack(wLogs.Tvdss,wLogs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=wUnits[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c,Dtick=false)
+
+subplot(1,10,2)
+LithoTrack(C2Logs.Tvdss,C2Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+           WellUnit=C2Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,3)
+LithoTrack(C1Logs.Tvdss,C1Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=C1Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,4)
+LithoTrack(C6Logs.Tvdss,C6Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=C6Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c,  Dtick=false)
+
+subplot(1,10,5)
+LithoTrack(C5Logs.Tvdss,C5Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+           WellUnit=C5Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,6)
+LithoTrack(C7Logs.Tvdss,C7Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=C7Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,7)
+LithoTrack(C4Logs.Tvdss,C4Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+           WellUnit=C4Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,8)
+LithoTrack(C3Logs.Tvdss,C3Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=C3Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+
+subplot(1,10,9)
+LithoTrack(C8Logs.Tvdss,C8Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+           WellUnit=C8Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+subplot(1,10,10)
+LithoTrack(C9Logs.Tvdss,C9Logs.GammaRay,DepthFrom=from,DepthTo=to,GRMax=200,
+            WellUnit=C9Units[:,[:TvdssTop,:TvdssBottom]],
+            LineCorrelate=c, Dtick=false)
+```
+<img src="WellLog_Ex13.png"><br>
 
 ## Other features
 

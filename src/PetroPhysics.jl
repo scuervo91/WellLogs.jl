@@ -90,10 +90,12 @@ end
     #Sw[2]=m
     #Sw[3]=n
     #Sw[4]=Rw
+    #Sw[5]=Phie
+    #Sw[6]=DeepRes
 
 
       for i=fr:to
-        Log.Sw[i]=SwArchie(Sw[1],Sw[2],Sw[3],Sw[4],Log.Phie[i],Log.DeepRes[i])
+        Log.Sw[i]=SwArchie(Sw[1],Sw[2],Sw[3],Sw[4],Sw[5][i],Sw[6][i])
           if Log.Sw[i]>1
             Log.Sw[i]=1
             end
