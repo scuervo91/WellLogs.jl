@@ -249,12 +249,12 @@ xs=[20.,35.,3.]
 ys=[45.,25.,25.]
 n=["Point A","Point B","Point C"]
 
-topdistance(xs,ys, Names=n, Show=2, title="All Distances Between Three Points", xlim=(0,50), ylim=(15, 60))
+topdistance(xs,ys, Names=n, title="All Distances Between Three Points", xlim=(0,50), ylim=(15, 60))
 ```
 <img src="WellLog_Ex4.PNG"><br>
 
 You can choose only one point to see all distances with respect of it.  
-For example, to plot distances with respect the second point ("Point B") just add ```Show=3```
+For example, to plot distances with respect the second point ("Point B") just add ```Show=2```
 ```Julia
 topdistance(xs,ys, Names=n, Show=2, title="All Distances Between Three Points", xlim=(0,50), ylim=(15, 60))
 ```
