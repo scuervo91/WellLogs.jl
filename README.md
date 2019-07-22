@@ -334,3 +334,14 @@ OOIP(Area=458,Height=26.3, Bo=1.2 ,Phi=0.07,Sw=0.55)
 OGIP(Area=500,Height=20, Bg=0.005812 ,Phi=0.18,Sw=0.2 )
 ```
 <img src="WellLog_Ex12.PNG"><br>
+
+
+#References
+
+-Crain's Petrophysical Handbook - Site Summary / Home Page, www.spec2000.net/index.htm.
+  (n.d.). Retrieved from https://www.spec2000.net/index.htm
+-Ahmed, T. H. (2019). Reservoir engineering handbook. Gulf Professional Publishing, an imprint of Elsevier.
+-Rider, M. (n.d.). The geological interpretation of well logs.
+-Djebbar Tiab and Erle C. Donaldson. (2016). Petrophysics (Fourth Edition).
+-Armstrong, M. (1998). Basic linear geostatistics. Springer
+-Pyrcz, M. J., & Deutsch, C. V. (2014). Geostatistical reservoir modeling. Oxford University Press.
