@@ -8,9 +8,10 @@ using Statistics
 using DataFrames
 using RecipesBase
 
-export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshTrack, PoroTrack,
-        Phiefec, SwArchie, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics,
-        OGIP, OOIP, meshgrid, VDLTrack, CBLTrack, CCLTrack, Reg, CalTrack
+export KhTrack, ResTrack, SwTrack, LithoTrack, PermTrack, VshPhieTrack, PoroTrack,
+        Phiefec, SwFunction, PermWR, RhoPorosity, Vshale, AddColPetro, PetroPhysics,
+        OGIP, OOIP, meshgrid, VDLTrack, CBLTrack, CCLTrack, Reg, CalTrack,FormationsTrack,
+        VshTrack, PhieTrack
 
 #Track functions
 include("KhTrack.jl")
@@ -24,7 +25,7 @@ include("VdlTrack.jl")
 include("CblTrack.jl")
 include("CCLTrack.jl")
 include("CalTrack.jl")
-
+include("FormationsTrack.jl")
 
 #Utility Functions
 include("meshgrid.jl")
@@ -33,7 +34,7 @@ include("Reg.jl")
 
 #Formula PetroPhysics
 include("Phiefec.jl")
-include("SwArchie.jl")
+include("SwFunction.jl")
 include("PermWR.jl")
 include("RhoPorosity.jl")
 include("Vshale.jl")
@@ -54,6 +55,6 @@ include("TopDistance.jl")
 
 #Plot Recipes
 include("IDWIRecipe.jl")
-
+# Dictionaries
 
 end # module

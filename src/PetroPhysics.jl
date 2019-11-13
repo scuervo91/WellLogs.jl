@@ -26,16 +26,18 @@ function PetroPhysics(Log,DepthFrom,DepthTo;    #range of depth to calculate Pet
                      Sw=false,                 #If caculate Water Saturation. It is requiered Phie and DeepRes [a,m,n,Rw]
                      Perm=false,               #If caculate Permeability).    Phie, Sw, Fluid, Author [Fluid, Author]
                      PayFlag=false,          #If calculate PayFlag. It is requiered Vsh,Phie,Sw,Perm [VshCutoff,PhieCutOff,SwCutoff,KCutOff]
-                     Kh=false   )            #If requiered Flow Capacity percentage
+                     Kh=false,               #If requiered Flow Capacity percentage
+                     DepthType= :Md)
 
 #Get the index of the range depth
-frr=findall(x->x==DepthFrom,Log.Md)
-too=findall(x->x==DepthTo,Log.Md)
+frr=findall(x->x==DepthFrom,Log[!,DepthType])
+too=findall(x->x==DepthTo,Log[!,DepthType])
 
 # convert the index from Array{Int64} to Int64
 fr=frr[1]
 to=too[1]
 
+ColumnList=names(Log)
 
 ####################################################
 # VSHALE
@@ -44,9 +46,12 @@ to=too[1]
 if Vsh != false
   #Vsh[1]= GrSand
   #Vsh[2]= GrShale
+    if (:Vsh in ColumnList) == false
+      Log.Vsh=zeros(size(Log,1)).+1
+    end
 
         for i=fr:to
-         Log.Vsh[i]=Vshale(Log.GammaRay[i],Vsh[1],Vsh[2])
+         Log.Vsh[i]=Vshale(Log[!,Vsh[1]][i],Vsh[2],Vsh[3])
          if Log.Vsh[i]>1
             Log.Vsh[i]=1
         end
@@ -59,12 +64,15 @@ end
 ####################################################
 
     if DenPhi != false
-    #DenPhi[1]= RhoMatrix
-    #DenPhi[2]= RhoFluid
+    #DenPhi[2]= RhoMatrix
+    #DenPhi[3]= RhoFluid
+    if (:DenPhi in ColumnList) == false
 
+       Log.DenPhi=zeros(size(Log,1))
+    end
 
     for i=fr:to
-           Log.DenPhi[i]= RhoPorosity(Log.Density[i],DenPhi[1],DenPhi[2])
+           Log.DenPhi[i]= RhoPorosity(Log[!,DenPhi[1]][i],DenPhi[2],DenPhi[3])
         if Log.DenPhi[i]<0
             Log.DenPhi[i]=0
         end
@@ -75,12 +83,20 @@ end
 # Phie
 ####################################################
     if Phie != false
-
-
-         for i=fr:to
-        Log.Phie[i]=Phiefec(Log.DenPhi[i],Log.NeutronSand[i],Log.Vsh[i])
+        if (:Phie in ColumnList) == false
+          Log.Phie=zeros(size(Log,1))
         end
 
+        if size(Phie,1)==3
+            for i=fr:to
+                Log.Phie[i]=Phiefec(Log[!,Phie[1]][i],Log[!,Phie[2]][i],Log[!,Phie[3]][i])
+            end
+        elseif size(Phie,1)==2
+            for i=fr:to
+                Log.Phie[i]=Log[!,Phie[1]][i].*(1 .-Log[!,Phie[2]][i] )
+            end
+
+        end
     end
 ####################################################
 # Sw
@@ -92,10 +108,20 @@ end
     #Sw[4]=Rw
     #Sw[5]=Phie
     #Sw[6]=DeepRes
-
+    #Sw[7]=Shale Resistivity
+    #Sw[8]=Vshale
+    #Sw[9]=Method [:Archie, :Smdx, :Indo]
+    if (:Sw in ColumnList) == false
+      Log.Sw=zeros(size(Log,1)).+2
+    end
 
       for i=fr:to
-        Log.Sw[i]=SwArchie(Sw[1],Sw[2],Sw[3],Sw[4],Sw[5][i],Sw[6][i])
+            try
+                Log.Sw[i]=SwFunction(Sw[1],Sw[2],Sw[3],Sw[4],Log[!,Sw[5]][i],Log[!,Sw[6]][i],
+                             Rsh=Sw[7],Vsh=Log[!,Sw[8]][i],α=Sw[10],Method=Sw[9])
+            catch e
+                Log.Sw[i]=1
+            end
           if Log.Sw[i]>1
             Log.Sw[i]=1
             end
@@ -107,11 +133,16 @@ end
 # Perm
 ####################################################
   if Perm != false
-  #Perm[1]=Fluid "Oil" or "Gas"
-  #Perm[2]=Author "Timur" or "Morris"
+      #Perm[1]=phi
+      #Perm[2]=Sw
+      #Perm[3]=Fluid "Oil" or "Gas"
+      #Perm[4]=Author "Timur" or "Morris"
+  if (:Perm in ColumnList) == false
+    Log.Perm=zeros(size(Log,1))
+  end
 
     for i=fr:to
-     Log.Perm[i]=PermWR(Log.Phie[i],Log.Sw[i],Fluid=Perm[1],Author=Perm[2])
+     Log.Perm[i]=PermWR(Log[!,Perm[1]][i],Log[!,Sw[2]][i],Fluid=Perm[3],Author=Perm[4])
     end
 
   end
@@ -125,12 +156,15 @@ end
  #PayFlag[2]=PhieCutOff
  #PayFlag[3]=SwCutoff
  #PayFlag[4]=KCutOff
+ if (:PayFlag in ColumnList) == false
+   Log.PayFlag=zeros(size(Log,1))
+ end
 
     for i=fr:to
-     Log.PayFlag[i]=(Log.Vsh[i].<PayFlag[1]).*
-            (Log.Phie[i].>PayFlag[2]).*
-            (Log.Sw[i].<PayFlag[3]).*
-            (Log.Perm[i].>=PayFlag[4]).*1
+     Log.PayFlag[i]=(Log[!,PayFlag[1]][i].<=PayFlag[2]).*
+            (Log[!,PayFlag[3]][i].>=PayFlag[4]).*
+            (Log[!,PayFlag[5]][i].<=PayFlag[6]).*
+            (Log[!,PayFlag[7]][i].>=PayFlag[8]).*1
     end
 
   end
@@ -139,21 +173,32 @@ end
 # Flow Capacity Kh
 ####################################################
   if Kh != false
+      #md
+      #Perm
+      #Payflag
+      if (:Kh in ColumnList) == false
+        Log.Kh=zeros(size(Log,1))
+      end
 
-     Kh=zeros(to-fr+2)
-     KhCum=zeros(to-fr+2)
+      if (:KhCum in ColumnList) == false
+        Log.KhCum=zeros(size(Log,1))
+      end
+
+     KH=zeros(to-fr+2)
+     KHCum=zeros(to-fr+2)
     for i=fr:to
         j=i-fr+2
-        Kh[j]=Log.Perm[i].*(Log.Md[i]-Log.Md[i-1]).*Log.PayFlag[i];
-        Log.Kh[i]=Kh[j]
-        KhCum[j]=KhCum[j-1]+Kh[j]
+        KH[j]=Log[!,Kh[2]][i].*(Log[!,Kh[1]][i].-Log[!,Kh[1]][i-1]).*Log[!,Kh[3]][i]
+        Log.Kh[i]=KH[j]
+        KHCum[j]=KHCum[j-1]+KH[j]
     end
-     KhTotal=sum(Kh)
-    for i=fr:to
-        j=i-fr+2
-        Log.KhCum[i]=1-(KhCum[j]/KhTotal)
+     KhTotal=sum(KH)
+    if KhTotal > 0
+        for i=fr:to
+            j=i-fr+2
+            Log.KhCum[i]=1-(KHCum[j]/KhTotal)
+        end
     end
-
 
   end
 

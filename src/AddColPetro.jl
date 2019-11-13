@@ -26,7 +26,7 @@ function AddColPetro(Log;Vsh=false,
                      All=false)
 
     if All==true
-       Log.Vsh=zeros(size(Log,1))
+       Log.Vsh=zeros(size(Log,1)).+1
        Log.Phie=zeros(size(Log,1))
        Log.Sw=zeros(size(Log,1))
        Log.Perm=zeros(size(Log,1))
@@ -37,7 +37,7 @@ function AddColPetro(Log;Vsh=false,
     else
 
         if Vsh==true
-        Log.Vsh=zeros(size(Log,1))
+        Log.Vsh=zeros(size(Log,1)).+1
         end
 
         if Phie==true
